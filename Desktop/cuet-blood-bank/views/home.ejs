@@ -1,0 +1,135 @@
+<section class="hero hero-premium">
+  <div class="hero-orb orb-one" aria-hidden="true"></div>
+  <div class="hero-orb orb-two" aria-hidden="true"></div>
+  <div class="wrap hero-grid hero-grid-premium">
+    <div class="hero-copy">
+      <div class="eyebrow"><span class="dot"></span> CUET'S TRUSTED DONOR NETWORK</div>
+      <h1>A faster path from <span>need</span> to donor.</h1>
+      <p class="hero-lede">CUET Blood Bank connects patients with eligible student donors—securely, nearby, and when every minute matters.</p>
+      <div class="hero-actions">
+        <a href="/search" class="btn btn-primary">Find blood now <span aria-hidden="true">→</span></a>
+        <a href="/register" class="btn hero-secondary">Become a donor</a>
+      </div>
+      <div class="hero-assurance">
+        <span><i class="check-icon">✓</i> CUET mail verified</span>
+        <span><i class="check-icon">✓</i> Privacy-first contact requests</span>
+      </div>
+    </div>
+
+    <aside class="hero-command" aria-label="Emergency blood request information">
+      <div class="command-topline">
+        <span class="live-indicator"><i></i> NETWORK STATUS</span>
+        <span>24/7 REQUESTS</span>
+      </div>
+      <div class="command-main">
+        <div class="blood-emblem">B<sup>+</sup></div>
+        <div>
+          <p class="command-label">NEED BLOOD URGENTLY?</p>
+          <h2>Send a nearby alert.</h2>
+        </div>
+      </div>
+      <p class="command-description">Create an urgent request and eligible compatible donors near you receive an immediate email alert.</p>
+      <a href="/requests/new" class="command-action">Start urgent request <span aria-hidden="true">→</span></a>
+      <div class="command-divider"></div>
+      <div class="command-footer">
+        <span><strong><%= donorCount %></strong> donors registered</span>
+        <span><strong><%= openRequestCount %></strong> active requests</span>
+      </div>
+    </aside>
+  </div>
+
+  <div class="wrap hero-metrics" aria-label="Network highlights">
+    <div><span class="metric-value"><%= donorCount %></span><span>Registered donors</span></div>
+    <div><span class="metric-value"><%= openRequestCount %></span><span>Open requests</span></div>
+    <div><span class="metric-value">8</span><span>Blood groups</span></div>
+    <div><span class="metric-value">90</span><span>Day eligibility tracking</span></div>
+  </div>
+</section>
+
+<section class="trust-bar">
+  <div class="wrap trust-bar-inner">
+    <span class="trust-label">BUILT FOR THE CUET COMMUNITY</span>
+    <span>Verified student donors</span>
+    <span>Smart location matching</span>
+    <span>Protected contact sharing</span>
+  </div>
+</section>
+
+<section class="block home-intro">
+  <div class="wrap split-intro">
+    <div>
+      <div class="section-kicker">ONE CAMPUS. ONE RELIABLE NETWORK.</div>
+      <h2>Blood help should feel organised, not overwhelming.</h2>
+    </div>
+    <div class="intro-copy">
+      <p>Replace last-minute group posts and unknown numbers with a clear, secure system. Search eligible donors, share a request, and let the right people know.</p>
+      <a href="/search" class="text-link">Explore the donor network <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+
+<% if (urgentRequests && urgentRequests.length) { %>
+<section class="block urgent-section">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker red-kicker">LIVE REQUESTS</div>
+        <h2>Urgent blood needed now</h2>
+      </div>
+      <a href="/requests" class="btn btn-outline btn-sm">View all requests</a>
+    </div>
+    <div class="urgent-list">
+      <% urgentRequests.forEach(r => { %>
+        <div class="urgent-row">
+          <div class="bg-chip"><%= r.bloodGroup %></div>
+          <div class="details">
+            <div class="who"><%= r.patientName || r.requesterName %> needs <%= r.unitsNeeded %> unit<%= r.unitsNeeded > 1 ? 's' : '' %></div>
+            <div class="where"><%= r.hospital || r.addressLabel || 'Location not specified' %></div>
+          </div>
+          <time><%= new Date(r.createdAt).toLocaleDateString() %></time>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<section class="block how-section">
+  <div class="wrap">
+    <div class="section-head how-head">
+      <div>
+        <div class="section-kicker">HOW IT WORKS</div>
+        <h2>Made for the moment it matters.</h2>
+      </div>
+      <p>One simple system for donors, patients, and the friends helping them.</p>
+    </div>
+    <div class="card-grid home-process-grid">
+      <article class="process-card">
+        <div class="process-icon">01</div>
+        <h3>Register securely</h3>
+        <p>CUET students join with their university email, blood group, and availability details.</p>
+      </article>
+      <article class="process-card featured-process">
+        <div class="process-icon">02</div>
+        <h3>Find the right match</h3>
+        <p>Search by blood group and location. We show eligible direct and compatible donors nearby.</p>
+      </article>
+      <article class="process-card">
+        <div class="process-icon">03</div>
+        <h3>Coordinate with care</h3>
+        <p>For urgent cases, send alerts to nearby donors and request contact details with accountability.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="block donor-cta-section">
+  <div class="wrap donor-cta">
+    <div>
+      <div class="section-kicker light-kicker">A SMALL ACTION. A REAL DIFFERENCE.</div>
+      <h2>Your blood group could be exactly what someone is waiting for.</h2>
+      <p>Join CUET’s verified donor network. Keep your availability current and be ready when your community needs you.</p>
+    </div>
+    <a href="/register" class="btn donor-cta-button">Register as a donor <span aria-hidden="true">→</span></a>
+  </div>
+</section>

@@ -1,0 +1,62 @@
+<section class="block form-shell">
+  <div class="wrap" style="max-width:560px;">
+    <div class="section-head" style="display:block;">
+      <h2>Register as a donor</h2>
+      <p>Open to CUET students with a <span class="mono">@<%= allowedDomain %></span> email address.</p>
+    </div>
+
+    <div class="form-panel">
+      <% if (errors && errors.length) { %>
+        <div class="form-errors"><ul><% errors.forEach(e => { %><li><%= e %></li><% }) %></ul></div>
+      <% } %>
+
+      <form method="POST" action="/register">
+        <div class="field">
+          <label for="name">Full name</label>
+          <input type="text" id="name" name="name" value="<%= old.name || '' %>" required />
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="email">CUET email</label>
+            <input type="email" id="email" name="email" placeholder="u2004xxx@student.cuet.ac.bd" value="<%= old.email || '' %>" required />
+          </div>
+          <div class="field">
+            <label for="phone">Phone number</label>
+            <input type="tel" id="phone" name="phone" value="<%= old.phone || '' %>" required />
+          </div>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" minlength="6" required />
+          <div class="hint">At least 6 characters.</div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="bloodGroup">Blood group</label>
+            <select id="bloodGroup" name="bloodGroup" required>
+              <option value="">Select</option>
+              <% bloodGroups.forEach(bg => { %>
+                <option value="<%= bg %>" <%= old.bloodGroup === bg ? 'selected' : '' %>><%= bg %></option>
+              <% }) %>
+            </select>
+          </div>
+          <div class="field">
+            <label for="batch">Batch (optional)</label>
+            <input type="text" id="batch" name="batch" placeholder="CSE-20" value="<%= old.batch || '' %>" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="department">Department (optional)</label>
+          <input type="text" id="department" name="department" placeholder="Computer Science and Engineering" value="<%= old.department || '' %>" />
+        </div>
+        <div class="field">
+          <label for="addressLabel">Usual location (optional)</label>
+          <input type="text" id="addressLabel" name="addressLabel" placeholder="Hall 4, CUET campus" value="<%= old.addressLabel || '' %>" />
+          <div class="hint">You can share live GPS location later from your dashboard for more accurate matching.</div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Create donor account</button>
+      </form>
+      <div class="form-note">Already registered? <a href="/login">Log in</a></div>
+    </div>
+  </div>
+</section>
