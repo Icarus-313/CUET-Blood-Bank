@@ -1,0 +1,30 @@
+<section class="block tight">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Open requests</h2>
+      <a href="/requests/new" class="btn btn-primary btn-sm">Submit a request</a>
+    </div>
+
+    <% if (requests.length === 0) { %>
+      <div class="empty-state">No open requests right now.</div>
+    <% } else { %>
+      <div class="urgent-list">
+        <% requests.forEach(r => { %>
+          <div class="urgent-row" style="border-left-color: <%= r.urgency === 'urgent' ? 'var(--red)' : 'var(--line)' %>;">
+            <div class="bg-chip"><%= r.bloodGroup %></div>
+            <div class="details">
+              <div class="who">
+                <%= r.patientName || r.requesterName %> needs <%= r.unitsNeeded %> unit<%= r.unitsNeeded > 1 ? 's' : '' %>
+                <% if (r.urgency === 'urgent') { %><span class="tag" style="background:#fdeceb;color:var(--red-deep);">Urgent</span><% } %>
+              </div>
+              <div class="where"><%= r.hospital || r.addressLabel || 'Location not specified' %> · Contact: <%= r.requesterPhone %></div>
+            </div>
+            <form method="POST" action="/requests/<%= r._id %>/fulfilled">
+              <button type="submit" class="btn btn-outline btn-sm">Mark fulfilled</button>
+            </form>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</section>
