@@ -1,0 +1,75 @@
+<section class="block tight">
+  <div class="wrap">
+    <div class="section-head" style="display:block;">
+      <h2>Find blood</h2>
+      <p>Find direct and compatible donors by blood group and distance. No account needed.</p>
+    </div>
+
+    <form method="GET" action="/search" class="search-toolbar">
+      <div class="field">
+        <label for="bloodGroup">Blood group</label>
+        <select id="bloodGroup" name="bloodGroup">
+          <option value="">Any</option>
+          <% bloodGroups.forEach(bg => { %>
+            <option value="<%= bg %>" <%= query.bloodGroup === bg ? 'selected' : '' %>><%= bg %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="field">
+        <label for="radiusKm">Radius (km)</label>
+        <input type="number" id="radiusKm" name="radiusKm" min="1" max="100" value="<%= query.radiusKm || 10 %>" style="width:100px;" />
+      </div>
+      <div class="field">
+        <label>&nbsp;</label>
+        <label style="display:flex;align-items:center;gap:6px;font-weight:400;font-size:0.88rem;padding-top:6px;">
+          <input type="checkbox" name="onlyAvailable" value="1" style="width:auto;" <%= query.onlyAvailable ? 'checked' : '' %> /> Only show available
+        </label>
+      </div>
+      <input type="hidden" id="lat" name="lat" value="<%= query.lat || '' %>" />
+      <input type="hidden" id="lng" name="lng" value="<%= query.lng || '' %>" />
+      <div class="field">
+        <label>&nbsp;</label>
+        <button type="button" class="btn btn-ink btn-sm" data-use-my-location>Use my location</button>
+      </div>
+      <div class="field">
+        <label>&nbsp;</label>
+        <button type="submit" class="btn btn-primary btn-sm">Search</button>
+      </div>
+      <p class="location-status" data-search-location-status style="width:100%;margin:0;"></p>
+    </form>
+
+    <% if (results && results.length) { %>
+      <div class="results-grid">
+        <% results.forEach(d => { %>
+          <div class="donor-card" data-donor-card data-donor-id="<%= d.id %>">
+            <div class="top">
+              <span class="bg"><%= d.bloodGroup %></span>
+              <% if (d.distanceKm !== null) { %><span class="distance"><%= d.distanceKm %> km</span><% } %>
+            </div>
+            <div class="name"><%= d.name %></div>
+            <div class="meta"><%= [d.department, d.batch].filter(Boolean).join(' · ') || d.addressLabel || 'CUET' %></div>
+            <% if (query.bloodGroup && !d.isDirectMatch) { %>
+              <div class="compatibility-note">Compatible donor for <span class="mono"><%= query.bloodGroup %></span></div>
+            <% } %>
+            <% if (!d.available) { %>
+              <span class="tag unavailable">Unavailable right now</span>
+            <% } else if (d.eligible) { %>
+              <span class="tag eligible">Eligible now</span>
+            <% } else { %>
+              <span class="tag resting">Resting</span>
+            <% } %>
+            <div class="contact-reveal">
+              <button type="button" class="btn btn-outline btn-sm" data-reveal-contact>Request contact details</button>
+              <div class="contact-result" data-contact-result hidden></div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } else if (query.bloodGroup || query.lat) { %>
+      <div class="empty-state">No matching donors found. Try widening the radius or removing the blood-group filter.</div>
+    <% } else { %>
+      <div class="empty-state">Choose a blood group, or use your location, and hit search to see donors.</div>
+    <% } %>
+    <p class="privacy-note">For donor safety, precise GPS coordinates are never displayed. Contact details are released only after a logged request.</p>
+  </div>
+</section>
